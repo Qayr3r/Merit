@@ -33,7 +33,7 @@ export default function ConsolePage() {
     xtermRef.current = term;
 
     const token = localStorage.getItem('token');
-    const ws = new WebSocket(`wss://meritmc.net?token=${token}`);
+    const ws = new WebSocket(`wss://api.meritmc.net?token=${token}`);
     wsRef.current = ws;
 
     ws.onmessage = (event) => {
