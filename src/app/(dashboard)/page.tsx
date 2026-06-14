@@ -18,7 +18,7 @@ export default function DashboardPage() {
     try {
       // Assuming a token is stored in localStorage after login
       const token = localStorage.getItem('token');
-      await axios.post(`http://api.meritmc.net/api/server/${action}`, {}, {
+      await axios.post(`https://api.meritmc.net/api/server/${action}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Need a proper WS or polling for status, here we just set it optimistically or wait for WS

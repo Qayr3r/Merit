@@ -23,7 +23,7 @@ export default function FilesPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://api.meritmc.net/api/files/list?dir=${encodeURIComponent(dir)}`, {
+      const res = await axios.get(`https://api.meritmc.net/api/files/list?dir=${encodeURIComponent(dir)}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       // Sort directories first
