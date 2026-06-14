@@ -17,7 +17,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const res = await axios.post('http://meritmc.net/api/auth/login', {
+      const res = await axios.post('http://api.meritmc.net/api/auth/login', {
         username,
         password
       });
