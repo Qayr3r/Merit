@@ -6,6 +6,29 @@ import axios from 'axios';
 export default function DashboardPage() {
   const [status, setStatus] = useState('offline');
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    // Kết nối WebSocket để nhận realtime status
+    const ws = new WebSocket(`wss://api.meritmc.net?token=${token}`);
+    
+    ws.onmessage = (event) => {
+      try {
+        const parsed = JSON.parse(event.data);
+        if (parsed.type === 'status') {
+          setStatus(parsed.data);
+        }
+      } catch (e) {
+        console.error('WS parse error', e);
+      }
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   // Simulated metrics for visual effect
   const metrics = [
     { label: 'CPU Usage', value: '45%', icon: Cpu, color: 'text-blue-400' },
@@ -16,12 +39,11 @@ export default function DashboardPage() {
 
   const handleAction = async (action: string) => {
     try {
-      // Assuming a token is stored in localStorage after login
       const token = localStorage.getItem('token');
       await axios.post(`https://api.meritmc.net/api/server/${action}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Need a proper WS or polling for status, here we just set it optimistically or wait for WS
+      // Lúc này WebSocket sẽ nhận được tín hiệu và tự động set lại state 'status', không cần update chay
     } catch (e) {
       console.error(e);
     }
